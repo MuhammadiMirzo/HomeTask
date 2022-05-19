@@ -14,48 +14,45 @@ public class DepartmentService
         
     }
 
-    public List<Department> GetDepartments()
+    public async Task<List<Department>> GetDepartments()
     {
         using(_connection)
         {
             var sql = "select d.id as Id, d.name as Name, e.id as ManagerId, concat(e.firstname,' ', e.lastname  ) as ManagerFullName from department d join employee  e on d.id = e.id";
 
-            var res = _connection.Query<Department>(sql);
+            var res =await _connection.QueryAsync<Department>(sql);
             return res.ToList(); 
         }
     }
      
-     public int InsertDepartment(UIDepartment department)
+     public async Task<int> InsertDepartment(UIDepartment department)
      {
          using(_connection)
          {
              var sql = $"insert into department (name) values ('{department.Name}')";
-             var res = _connection.Execute(sql);
+             var res =await _connection.ExecuteAsync(sql);
              return res; 
          }
      }
 
-    public int UpdateDepartment(UIDepartment department, int Id)
+    public async Task<int> UpdateDepartment(UIDepartment department, int Id)
      {
          using (_connection)
          {
             var sql = $"update  department set name = '{department.Name}' where id = {Id}"; 
-            var res = _connection.Execute(sql);
+            var res =  await _connection.ExecuteAsync(sql);
             return res;
          }
      }
 
 
-    public int GetDepartmentById(int Id)
+    public async Task <Department> GetDepartmentById(int Id)
      {
          using (_connection)
          {
             var sql = $"select * from department where id = {Id}"; 
-            var res = _connection.QuerySingle<Department>(sql);
+            var res =await _connection.QuerySingleAsync<Department>(sql);
             return res;
          }
      }
-
-    
-
 }
