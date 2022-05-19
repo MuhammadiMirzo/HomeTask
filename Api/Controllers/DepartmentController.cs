@@ -30,4 +30,10 @@ public class DepartmentController : ControllerBase
      {     
           return await _service.UpdateDepartment(department,id);
      }
+
+     [HttpGet("GetDepartmentById")]
+     public async Task<Department> GetDepartmentById(int Id)
+     {
+         return await _service.GetDepartmentById(Id);
+     }
 }
